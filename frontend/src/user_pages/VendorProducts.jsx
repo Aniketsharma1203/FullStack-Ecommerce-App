@@ -1,25 +1,54 @@
-import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 const VendorProducts = () => {
   const location = useLocation();
   const [userInfo] = useState(location.state.key);
-  const [products, setproducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const getAllProducts = useCallback(async () => {
-    await axios.post('/vendor/vendorproducts', { id: userInfo._id })
-      .then((response) => setproducts(response.data))
-      .catch((err) => console.log(err));
-  }, [userInfo._id]);
+    try {
+      const response = await axios.post("/vendor/vendorproducts", {
+        id: userInfo._id,
+      });
+      setProducts(response.data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
-    if (userInfo !== null) {
+    if (userInfo) {
       getAllProducts();
     }
   }, [userInfo, getAllProducts]);
+
+  const handleDeleteClick = (product) => {
+    setSelectedProduct(product); // Store the product to be deleted
+    setShowModal(true); // Show the modal
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedProduct) return;
+    try {
+      await axios.post("/vendor/deleteProduct", { id: selectedProduct._id });
+      setProducts(products.filter((p) => p._id !== selectedProduct._id));
+      setShowModal(false);
+      setSelectedProduct(null);
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowModal(false);
+    setSelectedProduct(null);
+  };
 
   const responsive = {
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3, slidesToSlide: 3 },
@@ -28,24 +57,22 @@ const VendorProducts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-gray-100 p-6">
+    <div className="min-h-screen from-white to-gray-100 p-6">
       {userInfo === null ? (
         <p className="text-center text-gray-600 text-lg">Loading...</p>
       ) : (
-        <div className="text-center">
+        <div className="flex flex-col justify-center text-center">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             Hey {userInfo.name}, Welcome!
           </h1>
           <p className="text-lg text-gray-600 mb-8">Here are your products:</p>
 
-          <Carousel
-            responsive={responsive}
-          >
-            {products && products.length > 0 ? (
+          <Carousel responsive={responsive}>
+            {products.length > 0 ? (
               products.map((product, index) => (
                 <div
                   key={index}
-                  className="bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300"
+                  className="bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300 m-3"
                 >
                   <div className="relative group">
                     <img
@@ -63,12 +90,14 @@ const VendorProducts = () => {
                     <h2 className="text-xl font-semibold text-gray-800">
                       {product.name}
                     </h2>
-                    <p className="text-gray-600 mt-2 text-sm">
-                      {product.description}
-                    </p>
-                    <p className="text-green-500 font-bold mt-4 text-lg">
-                      ${product.price}
-                    </p>
+                    <p className="text-gray-600 mt-2 text-sm">{product.description}</p>
+                    <p className="text-green-500 font-bold mt-4 text-lg">${product.price}</p>
+                    <button
+                      className="bg-orange-600 w-20 rounded-lg p-2 text-white hover:opacity-70 mt-3"
+                      onClick={() => handleDeleteClick(product)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))
@@ -76,12 +105,33 @@ const VendorProducts = () => {
               <p className="text-center text-gray-600">No products available.</p>
             )}
           </Carousel>
+
+          {/* Modal */}
+          {showModal && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-white p-6 rounded shadow-lg w-96">
+                <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
+                <p>Are you sure you want to delete this product?</p>
+                <div className="flex justify-end mt-6">
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded mr-4 hover:bg-gray-400"
+                    onClick={cancelDelete}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-red-500 px-4 py-2 rounded text-white hover:bg-red-600"
+                    onClick={confirmDelete}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
-
-
-
   );
 };
 

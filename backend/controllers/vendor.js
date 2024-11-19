@@ -3,10 +3,11 @@ import Products from "../models/products.js";
 import multer from 'multer';
 import path from 'path';
 
+
 // Multer storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Directory where files will be stored
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // Unique file names
@@ -63,4 +64,9 @@ export const handleVendorProducts = async (req, res) => {
   const products = await Products.find(vendor_id);
   if (!products) res.status(400).json("Not getting Any Products");
   else res.status(200).json(products);
+};
+
+export const handleDeleteProducts = async (req, res) => {
+  await Products.findOneAndDelete({ _id: req.body.id });
+  res.send("Deleted Successfully.")
 };

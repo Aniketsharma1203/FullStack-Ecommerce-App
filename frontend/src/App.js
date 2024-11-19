@@ -8,6 +8,11 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import UserMain from "./user_pages/Main";
 import VendorForm from "./user_pages/VendorForm";
 import VendorProducts from "./user_pages/VendorProducts";
+import Tshirts from "./NavBar_pages/Tshirts";
+import Women from "./NavBar_pages/Women";
+import Men from "./NavBar_pages/Men";
+import About from "./NavBar_pages/About";
+import Contact from "./NavBar_pages/Contact";
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/authmain" element={<Main />} />
+          <Route path="/tshirts" element={<Tshirts />} />
+          <Route path="/women" element={<Women />} />
+          <Route path="/men" element={<Men />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
 
         </Routes>
       </BrowserRouter>

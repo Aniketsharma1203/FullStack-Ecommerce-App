@@ -4,6 +4,7 @@ import { connectToMongoDb } from './connect.js';
 import userRoute from "./routes/user.js";
 import LoggedInRoutes from './routes/loggedInUser.js';
 import VendorRoutes from './routes/vendor.js';
+import BuyerRoutes from './routes/buyer.js';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -21,6 +22,7 @@ connectToMongoDb("mongodb://127.0.0.1:27017/e-commerce")
 app.use('/', userRoute)
 app.use('/loggedin', LoggedInRoutes)
 app.use('/vendor', VendorRoutes)
+app.use('/buyer', BuyerRoutes)
 app.use('/uploads', express.static('uploads'));
 
 

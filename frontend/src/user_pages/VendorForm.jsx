@@ -34,7 +34,6 @@ const VendorForm = () => {
 
     const formData = new FormData();
 
-    // Append non-file fields
     formData.append("name", productinfo.name);
     formData.append("category", productinfo.category);
     formData.append("price", productinfo.price);
@@ -184,6 +183,7 @@ const VendorForm = () => {
               <option value="" disabled selected>Select a special category (if any)</option>
               <option value="summer" >Summer</option>
               <option value="winter">Winter</option>
+              <option value="tshirt">T-Shirt</option>
             </select>
           </div>
 

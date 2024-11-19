@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Buyer from './Buyer'
+import Home from '../Home/Home';
 import Vendor from './Vendor'
 import Cookies from 'js-cookie';
-import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 
 
@@ -12,38 +11,40 @@ const Main = () => {
 
     const getUserIdFromToken = (token) => {
         try {
-            const decoded = jwtDecode(token);
-            return decoded.userId; // assuming userId is in the payload
+            const decoded = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
+            return decoded.userId; // Assuming `userId` is in the payload
         } catch (error) {
             console.error("Invalid token:", error);
             return null;
         }
     };
 
+    const fetchUserInfo = async (userId) => {
+        try {
+            const response = await axios.post("/loggedin/userRole", { userId });
+            setuserInfo(response.data);
+        } catch (error) {
+            console.error("Error fetching user role:", error);
+        }
+    };
+
     useEffect(() => {
-        const fetchuserInfo = async () => {
-            const token = Cookies.get('token');
+        const token = Cookies.get('token'); // Get token from cookies
+        if (token) {
             const userId = getUserIdFromToken(token);
-
             if (userId) {
-                try {
-                    const response = await axios.post("/loggedin/userRole", { userId });
-                    setuserInfo(response.data);
-                } catch (error) {
-                    console.error("Error fetching user role:", error);
-                }
+                fetchUserInfo(userId);
             }
-        };
+        }
+    }, []); // Dependency array is empty as it should run only once on mount
 
-        fetchuserInfo();
-    }, []);
 
     return (
         <div>
             {
                userInfo ? (
                 userInfo.role === "buyer" ? (
-                    <Buyer userInfo={userInfo} />
+                    <Home userInfo={userInfo} />
                 ) : (
                     <Vendor userInfo={userInfo} />
                 )

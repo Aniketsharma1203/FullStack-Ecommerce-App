@@ -5,8 +5,8 @@ import userRoute from "./routes/user.js";
 import LoggedInRoutes from './routes/loggedInUser.js';
 import VendorRoutes from './routes/vendor.js';
 import BuyerRoutes from './routes/buyer.js';
-
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const app = express();
@@ -26,6 +26,5 @@ app.use('/loggedin', LoggedInRoutes)
 app.use('/vendor', VendorRoutes)
 app.use('/buyer', BuyerRoutes)
 app.use('/uploads', express.static('uploads'));
-
 
 app.listen(PORT, () => console.log(`App is listening on ${PORT}`));

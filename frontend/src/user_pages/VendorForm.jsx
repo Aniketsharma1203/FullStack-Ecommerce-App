@@ -204,12 +204,13 @@ const VendorForm = () => {
 
           <div>
             <label className="flex text-gray-700 font-medium mb-1">
-              Image <FaStar color='red' size={6} />
+              Image <FaStar color="red" size={6} />
             </label>
             <input
               required
               type="file"
               name="image"
+              accept="image/*" // Restrict file types to images
               onChange={handleChange}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -217,16 +218,18 @@ const VendorForm = () => {
 
           <div>
             <label className="flex text-gray-700 font-medium mb-1">
-              Display Image <FaStar color='red' size={6} />
+              Display Image <FaStar color="red" size={6} />
             </label>
             <input
               required
               type="file"
               name="display_image"
+              accept="image/*" // Restrict file types to images
               onChange={handleChange}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
+
 
           <button
             type="submit"

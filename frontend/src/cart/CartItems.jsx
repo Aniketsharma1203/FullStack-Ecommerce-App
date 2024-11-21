@@ -6,29 +6,35 @@ const CartItems = () => {
 
     useEffect(() => {
         const token = Cookies.get('token');
-        const savedCart = localStorage.getItem(token);
-        if (savedCart) {
-            try {
-                const parsedCart = JSON.parse(savedCart);
-                if (Array.isArray(parsedCart)) {
-                    setCartProducts(parsedCart);
-                } else {
-                    console.error('Cart data is not an array');
+        if (token) {
+            const savedCart = localStorage.getItem(token);
+            if (savedCart) {
+                try {
+                    const parsedCart = JSON.parse(savedCart);
+                    if (Array.isArray(parsedCart)) {
+                        setCartProducts(parsedCart);
+                    } else {
+                        console.error('Cart data is not an array');
+                    }
+                } catch (error) {
+                    console.error('Error parsing cart data:', error);
                 }
-            } catch (error) {
-                console.error('Error parsing cart data:', error);
             }
         }
+
     }, []);
 
-    // Synchronize localStorage with state
     useEffect(() => {
         const token = Cookies.get('token');
-        if (cartProducts.length > 0) {
-            localStorage.setItem(token, JSON.stringify(cartProducts));
-        } else {
-            localStorage.removeItem(token); // Remove if cart is empty
+        
+        if (token) {
+            if (cartProducts.length > 0) {
+                localStorage.setItem(token, JSON.stringify(cartProducts));
+            } else {
+                localStorage.removeItem(token); // Remove if cart is empty
+            }
         }
+
     }, [cartProducts]);
 
     const addToCart = (product) => {
@@ -95,7 +101,7 @@ const CartItems = () => {
                                         >
                                             -
                                         </button>
-                                        <span className="px-3">{product.quantity || 1}</span>
+                                        <span className="px-3">{1}</span>
                                         <button
                                             onClick={() =>
                                                 setCartProducts((prevCart) => {
@@ -120,7 +126,7 @@ const CartItems = () => {
                         <div className="flex justify-between items-center mb-4">
                             <p className="text-gray-600">Subtotal:</p>
                             <p className="font-bold text-gray-800">
-                                ${cartProducts.reduce((acc, product) => acc + (product.price || 0) * (product.quantity || 1), 0).toFixed(2)}
+                                ${cartProducts.reduce((acc, product) => acc + (product.price || 0) * (1), 0).toFixed(2)}
                             </p>
                         </div>
                         <button className="block w-full bg-black text-white py-2 rounded mb-2 hover:bg-gray-800">

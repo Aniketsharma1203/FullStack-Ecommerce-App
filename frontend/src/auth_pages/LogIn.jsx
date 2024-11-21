@@ -50,45 +50,74 @@ const LogIn = () => {
 
 
     return (
-        <div className="flex justify-center items-center h-full bg-gray-100">
+        <div className="flex justify-center items-center h-auto bg-gradient-to-br from-gray-100 to-gray-300">
             <ToastContainer />
-            <form className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md" onSubmit={submitInfo}>
-                <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Sign In</h2>
-
-                <div className="mb-5">
-                    <label htmlFor="email" className="block text-gray-700 font-medium mb-1">Email</label>
-                    <input
-                        type="email"
-                        required
-                        name="email"
-                        value={userInfo.email}
-                        onChange={handleChange}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-                        placeholder="Enter your email"
-                    />
+            <div className="flex flex-col items-center bg-white shadow-2xl rounded-lg p-10 w-full max-w-md">
+                {/* Welcome Section */}
+                <div className="text-center mb-8">
+                    <h2 className="text-4xl font-extrabold text-gray-800">
+                        Welcome Back
+                    </h2>
+                    <p className="text-gray-500 mt-2">
+                        Sign in to access your account
+                    </p>
                 </div>
 
-                <div className="mb-8">
-                    <label htmlFor="password" className="block text-gray-700 font-medium mb-1">Password</label>
-                    <input
-                        type="password"
-                        required
-                        name="password"
-                        value={userInfo.password}
-                        onChange={handleChange}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-                        placeholder="Enter your password"
-                    />
-                </div>
+                {/* Form */}
+                <form className="w-full" onSubmit={submitInfo}>
+                    <div className="mb-6">
+                        <label
+                            htmlFor="email"
+                            className="block text-gray-700 font-semibold mb-2"
+                        >
+                            Email Address
+                        </label>
+                        <input
+                            type="email"
+                            required
+                            name="email"
+                            value={userInfo.email}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="Enter your email"
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition duration-300"
-                >
-                    Sign In
-                </button>
-            </form>
+                    <div className="mb-6">
+                        <label
+                            htmlFor="password"
+                            className="block text-gray-700 font-semibold mb-2"
+                        >
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            required
+                            name="password"
+                            value={userInfo.password}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="Enter your password"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 shadow-lg transition duration-300"
+                    >
+                        Sign In
+                    </button>
+                </form>
+
+                {/* Additional Info */}
+                <div className="mt-8 text-center">
+                    <p className="mt-4 text-gray-400 text-sm">
+                        Welcome to our ecommerce app. Experience the best shopping journey.
+                    </p>
+                </div>
+            </div>
         </div>
+
     )
 }
 

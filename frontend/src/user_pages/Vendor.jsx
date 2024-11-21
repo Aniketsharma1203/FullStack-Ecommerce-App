@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Vendor = (props) => {
   const [useInfo] = useState(props.userInfo);
@@ -31,19 +32,34 @@ const Vendor = (props) => {
 
         <div className='flex gap-4 justify-center'>
 
-        <button className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-teal-600 text-white font-semibold hover:from-teal-600 hover:to-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-2xl"
-        onClick={() => navigate('/vendorform',{state:{key: useInfo}})}>
-          Add Product
-        </button>
+          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-teal-600 text-white font-semibold hover:from-teal-600 hover:to-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+            onClick={() => navigate('/vendorform', { state: { key: useInfo } })}>
+            Add Product
+          </button>
 
-        <button className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-teal-600 text-white font-semibold hover:from-teal-600 hover:to-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-2xl"
-        onClick={() => navigate('/vendorproducts',{state:{key: useInfo}})}>
-          View Products
-        </button>
+          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-teal-600 text-white font-semibold hover:from-teal-600 hover:to-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+            onClick={() => navigate('/vendorproducts', { state: { key: useInfo } })}>
+            View Products
+          </button>
 
         </div>
 
       </div>
+
+      <div className="flex justify-center mt-8">
+        <button
+          className="px-8 py-3 rounded-full bg-gradient-to-r from-red-500 via-red-600 to-red-700 text-white text-lg font-bold tracking-wide 
+                   hover:from-red-700 hover:via-red-600 hover:to-red-500 hover:scale-105 
+                   shadow-md hover:shadow-lg transform transition-all duration-300 ease-in-out"
+          onClick={() => {
+            window.location.reload(false);
+            Cookies.remove('token');
+          }}
+        >
+          Log Out
+        </button>
+      </div>
+
 
       <style>
         {`

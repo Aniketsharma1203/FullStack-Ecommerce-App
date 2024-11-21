@@ -60,11 +60,26 @@ export const handleProductInfo = async (req, res) => {
 };
 
 export const handleVendorProducts = async (req, res) => {
-  const { vendor_id } = req.body;
-  const products = await Products.find(vendor_id);
-  if (!products) res.status(400).json("Not getting Any Products");
-  else res.status(200).json(products);
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "Vendor ID is required" });
+    }
+
+    const products = await Products.find({ vendor_id: id });
+
+    if (!products.length) {
+      return res.status(404).json({ message: "No products found for this vendor" });
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching vendor products:", error);
+    res.status(500).json({ message: "Server error while fetching products" });
+  }
 };
+
 
 export const handleDeleteProducts = async (req, res) => {
   await Products.findOneAndDelete({ _id: req.body.id });

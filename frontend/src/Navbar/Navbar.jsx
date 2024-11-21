@@ -49,71 +49,101 @@ const Navbar = () => {
 
 
     return (
-        <div className='flex items-center text-center justify-between px-8 h-20'>
-            <div className='flex items-center gap-4 text-sm uppercase '>
-                <div className='hover:cursor-pointer hover:opacity-70 hover:underline' onClick={() => navigate('/tshirts')}>Buy T-Shirts</div>
-                <div className='hover:cursor-pointer hover:opacity-70 hover:underline' onClick={() => navigate('/women')}>WOMEN</div>
-                <div className='hover:cursor-pointer hover:opacity-70 hover:underline' onClick={() => navigate('/men')}>MEN</div>
-                <div className='hover:cursor-pointer hover:opacity-70 hover:underline' onClick={() => navigate('/about')}>ABOUT</div>
-                <div className='hover:cursor-pointer hover:opacity-70 hover:underline' onClick={() => navigate('/contact')}>CONTACT</div>
+        <div className="flex items-center justify-between px-8 h-20 bg-gray-50 shadow-lg">
+            {/* Navigation Links */}
+            <div className="flex items-center gap-6 text-sm uppercase text-gray-700 font-medium">
+                <div className="hover:cursor-pointer hover:opacity-80 hover:underline transition" onClick={() => navigate('/tshirts')}>Buy T-Shirts</div>
+                <div className="hover:cursor-pointer hover:opacity-80 hover:underline transition" onClick={() => navigate('/women')}>Women</div>
+                <div className="hover:cursor-pointer hover:opacity-80 hover:underline transition" onClick={() => navigate('/men')}>Men</div>
+                <div className="hover:cursor-pointer hover:opacity-80 hover:underline transition" onClick={() => navigate('/about')}>About</div>
+                <div className="hover:cursor-pointer hover:opacity-80 hover:underline transition" onClick={() => navigate('/contact')}>Contact</div>
             </div>
 
-            <div className=' flex-col justify-center '>
-                <img src="https://websitedemos.net/t-shirts-store-04/wp-content/uploads/sites/1115/2022/07/logo-regular.png" alt="logo" />
+            {/* Logo */}
+            <div className="flex justify-center">
+                <img
+                    src="https://websitedemos.net/t-shirts-store-04/wp-content/uploads/sites/1115/2022/07/logo-regular.png"
+                    alt="logo"
+                    className="w-24"
+                />
             </div>
 
-            <div className='flex gap-20 items-center text-center'>
+            {/* Search, Cart, and Authentication */}
+            <div className="flex items-center gap-6 text-gray-700">
+                {/* Search Icon */}
+                <IoIosSearch size={24} className="hover:opacity-70 cursor-pointer transition" />
 
-                <IoIosSearch size={20} />
-                <div className='flex gap-4 items-center text-center'>
-                    <p className='font-semibold'>$0.00</p>
-                    <div onClick={() => isCart(!cartOpen)} className='hover:scale-110 cursor-pointer'>
-                        <PiShoppingCartSimpleFill size={20} />
+                {/* Cart Section */}
+                <div className="flex items-center gap-4">
+                    <p className="font-semibold text-gray-800">$0.00</p>
+                    <div onClick={() => isCart(!cartOpen)} className="hover:scale-110 cursor-pointer transition">
+                        <PiShoppingCartSimpleFill size={24} />
                     </div>
-
                 </div>
 
-                <div className='flex  gap-6 border p-4 border-slate-400 rounded-md text-center justify-center items-center'>
-                    {
-                        userInfo === null ? (
-                            <>
-                                <p className='text-base hover:cursor-pointer hover:opacity-70' onClick={() => navigate('/authmain')}>Sign Up</p>
-                                <p className='text-base hover:cursor-pointer hover:opacity-70' onClick={() => navigate('/authmain')}>Log In</p>
-                            </>
-                        ) : (
-                            <div>
-                                <div>
-                                    <p className='font-bold'> {userInfo.name}</p>
-                                    <button className='bg-red-500 text-white rounded-lg p-2' onClick={() => {
-                                        window.location.reload(false);
-                                        Cookies.remove('token')
-                                    }}>Sign Out</button>
-                                </div>
-                            </div>
-                        )
-                    }
+                {/* Auth Section */}
+                <div className="flex items-center gap-4 p-2 border border-gray-300 rounded-lg bg-white shadow-sm">
+                    {userInfo === null ? (
+                        <>
+                            <p
+                                className="text-sm font-medium hover:opacity-80 cursor-pointer transition"
+                                onClick={() => navigate('/authmain')}
+                            >
+                                Sign Up
+                            </p>
+                            <p
+                                className="text-sm font-medium hover:opacity-80 cursor-pointer transition"
+                                onClick={() => navigate('/authmain')}
+                            >
+                                Log In
+                            </p>
+                        </>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <p className="font-bold">{userInfo.name}</p>
+                            <button
+                                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                                onClick={() => {
+                                    window.location.reload(false);
+                                    Cookies.remove('token');
+                                }}
+                            >
+                                Sign Out
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* My Cart Goes here */}
+            {/* Shopping Cart Drawer */}
+            {cartOpen && (
+                <>
+                    {/* Overlay */}
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                        onClick={() => isCart(false)}
+                    ></div>
 
-            {
-                cartOpen === true && (
-                    <div className='fixed top-0 right-0 h-screen w-[30%] bg-gray-200 '>
-                        <div>
-                            <div className='m-4 flex justify-between items-center h-[64px]'>
-                                <IoClose onClick={() => isCart(false)} size={20} className='hover:scale-110 cursor-pointer' />
-                                <p className='text-sm font-medium'>Shopping Cart</p>
+                    {/* Cart Drawer */}
+                    <div className="fixed top-0 right-0 h-screen w-[30%] bg-gray-100 shadow-lg z-50">
+                        <div className="p-4">
+                            <div className="flex justify-between items-center mb-4">
+                                <IoClose
+                                    onClick={() => isCart(false)}
+                                    size={24}
+                                    className="hover:scale-110 cursor-pointer transition"
+                                />
+                                <p className="text-lg font-semibold">Shopping Cart</p>
                             </div>
-                            <hr class="h-1 bg-gray-500 border-0 dark:bg-gray-500"></hr>
+                            <hr className="border-gray-300" />
                             <CartItems />
                         </div>
                     </div>
-                )
-            }
-
+                </>
+            )}
 
         </div>
+
     );
 };
 

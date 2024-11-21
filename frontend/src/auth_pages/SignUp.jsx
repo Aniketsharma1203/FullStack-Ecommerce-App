@@ -56,7 +56,7 @@ const SignUp = () => {
   console.log(userInfo.role);
 
   return (
-    <div className="flex justify-center items-center h-full bg-gray-100">
+    <div className="flex justify-center items-center w-[450px] h-full bg-gray-100">
       <ToastContainer />
       <form className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md" onSubmit={submitInfo}>
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Sign Up</h2>

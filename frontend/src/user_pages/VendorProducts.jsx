@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { RiArrowGoBackFill } from "react-icons/ri";
+
 
 const VendorProducts = () => {
   const location = useLocation();
@@ -10,6 +12,7 @@ const VendorProducts = () => {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
 
   const getAllProducts = useCallback(async () => {
     try {
@@ -131,6 +134,16 @@ const VendorProducts = () => {
           )}
         </div>
       )}
+
+      <div className="m-10">
+        <button
+          className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white p-4 rounded-xl flex items-center gap-3 shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl active:scale-95"
+          onClick={() => navigate('/loggedInUser')}
+        >
+          <RiArrowGoBackFill size={24} />
+          <span className="text-lg font-semibold">Go Back</span>
+        </button>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://full-stack-ecommerce-app-backend.vercel.app",
+  "proxy": "http://localhost:4000/",
   "dependencies": {
     "@material-tailwind/html": "^2.3.2",
     "@testing-library/jest-dom": "^5.17.0",
